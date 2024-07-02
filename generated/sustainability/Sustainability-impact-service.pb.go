@@ -876,6 +876,7 @@ type UserChallenge struct {
 	UserId      string  `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
 	ChallengeId string  `protobuf:"bytes,2,opt,name=challengeId,proto3" json:"challengeId,omitempty"`
 	Progress    float32 `protobuf:"fixed32,3,opt,name=progress,proto3" json:"progress,omitempty"`
+	CompletedAt string  `protobuf:"bytes,4,opt,name=completedAt,proto3" json:"completedAt,omitempty"`
 }
 
 func (x *UserChallenge) Reset() {
@@ -931,6 +932,13 @@ func (x *UserChallenge) GetProgress() float32 {
 	return 0
 }
 
+func (x *UserChallenge) GetCompletedAt() string {
+	if x != nil {
+		return x.CompletedAt
+	}
+	return ""
+}
+
 type GetUsersLeaderboardRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -974,7 +982,7 @@ type GetUsersLeaderboardResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	Leaderboard []*UsersLeaderboard `protobuf:"bytes,1,rep,name=leaderboard,proto3" json:"leaderboard,omitempty"`
 }
 
 func (x *GetUsersLeaderboardResponse) Reset() {
@@ -1009,14 +1017,14 @@ func (*GetUsersLeaderboardResponse) Descriptor() ([]byte, []int) {
 	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *GetUsersLeaderboardResponse) GetUsers() []*User {
+func (x *GetUsersLeaderboardResponse) GetLeaderboard() []*UsersLeaderboard {
 	if x != nil {
-		return x.Users
+		return x.Leaderboard
 	}
 	return nil
 }
 
-type User struct {
+type UsersLeaderboard struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1025,8 +1033,8 @@ type User struct {
 	Points float32 `protobuf:"fixed32,2,opt,name=points,proto3" json:"points,omitempty"`
 }
 
-func (x *User) Reset() {
-	*x = User{}
+func (x *UsersLeaderboard) Reset() {
+	*x = UsersLeaderboard{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_Sustainability_impact_service_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1034,13 +1042,13 @@ func (x *User) Reset() {
 	}
 }
 
-func (x *User) String() string {
+func (x *UsersLeaderboard) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*User) ProtoMessage() {}
+func (*UsersLeaderboard) ProtoMessage() {}
 
-func (x *User) ProtoReflect() protoreflect.Message {
+func (x *UsersLeaderboard) ProtoReflect() protoreflect.Message {
 	mi := &file_Sustainability_impact_service_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1052,19 +1060,19 @@ func (x *User) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use User.ProtoReflect.Descriptor instead.
-func (*User) Descriptor() ([]byte, []int) {
+// Deprecated: Use UsersLeaderboard.ProtoReflect.Descriptor instead.
+func (*UsersLeaderboard) Descriptor() ([]byte, []int) {
 	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *User) GetUserId() string {
+func (x *UsersLeaderboard) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *User) GetPoints() float32 {
+func (x *UsersLeaderboard) GetPoints() float32 {
 	if x != nil {
 		return x.Points
 	}
@@ -1114,8 +1122,7 @@ type GetCommunitiesLeaderboardResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string  `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty"`
-	Points      float32 `protobuf:"fixed32,2,opt,name=points,proto3" json:"points,omitempty"`
+	CommunitiesLeaderboards []*CommunitiesLeaderboard `protobuf:"bytes,1,rep,name=communitiesLeaderboards,proto3" json:"communitiesLeaderboards,omitempty"`
 }
 
 func (x *GetCommunitiesLeaderboardResponse) Reset() {
@@ -1150,14 +1157,62 @@ func (*GetCommunitiesLeaderboardResponse) Descriptor() ([]byte, []int) {
 	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *GetCommunitiesLeaderboardResponse) GetCommunityId() string {
+func (x *GetCommunitiesLeaderboardResponse) GetCommunitiesLeaderboards() []*CommunitiesLeaderboard {
+	if x != nil {
+		return x.CommunitiesLeaderboards
+	}
+	return nil
+}
+
+type CommunitiesLeaderboard struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CommunityId string  `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty"`
+	Points      float32 `protobuf:"fixed32,2,opt,name=points,proto3" json:"points,omitempty"`
+}
+
+func (x *CommunitiesLeaderboard) Reset() {
+	*x = CommunitiesLeaderboard{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_Sustainability_impact_service_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CommunitiesLeaderboard) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CommunitiesLeaderboard) ProtoMessage() {}
+
+func (x *CommunitiesLeaderboard) ProtoReflect() protoreflect.Message {
+	mi := &file_Sustainability_impact_service_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CommunitiesLeaderboard.ProtoReflect.Descriptor instead.
+func (*CommunitiesLeaderboard) Descriptor() ([]byte, []int) {
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *CommunitiesLeaderboard) GetCommunityId() string {
 	if x != nil {
 		return x.CommunityId
 	}
 	return ""
 }
 
-func (x *GetCommunitiesLeaderboardResponse) GetPoints() float32 {
+func (x *CommunitiesLeaderboard) GetPoints() float32 {
 	if x != nil {
 		return x.Points
 	}
@@ -1226,20 +1281,17 @@ var file_Sustainability_impact_service_proto_rawDesc = []byte{
 	0x6e, 0x69, 0x74, 0x22, 0x6c, 0x0a, 0x14, 0x4a, 0x6f, 0x69, 0x6e, 0x43, 0x68, 0x61, 0x6c, 0x6c,
 	0x65, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x75,
 	0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65,
-	0x72, 0x49, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65,
-	0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65,
-	0x6e, 0x67, 0x65, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73,
-	0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x02, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73,
-	0x73, 0x22, 0x31, 0x0a, 0x15, 0x4a, 0x6f, 0x69, 0x6e, 0x43, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e,
-	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75,
-	0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63,
-	0x63, 0x65, 0x73, 0x73, 0x22, 0x76, 0x0a, 0x1e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68,
-	0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x20,
-	0x0a, 0x0b, 0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x49, 0x64, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x49, 0x64,
-	0x12, 0x1a, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01,
+
+	0x72, 0x49, 0x64, 0x22, 0x6f, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x43, 0x68,
+	0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x52, 0x0a, 0x0e, 0x75, 0x73, 0x65, 0x72, 0x43, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67,
+	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x53, 0x75, 0x73, 0x74, 0x61,
+	0x69, 0x6e, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x43, 0x68, 0x61, 0x6c, 0x6c,
+	0x65, 0x6e, 0x67, 0x65, 0x52, 0x0e, 0x75, 0x73, 0x65, 0x72, 0x43, 0x68, 0x61, 0x6c, 0x6c, 0x65,
+	0x6e, 0x67, 0x65, 0x73, 0x22, 0x87, 0x01, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x43, 0x68, 0x61,
+	0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
+
 	0x28, 0x02, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x22, 0x3b, 0x0a, 0x1f,
 	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x50,
 	0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
@@ -1373,7 +1425,7 @@ func file_Sustainability_impact_service_proto_rawDescGZIP() []byte {
 	return file_Sustainability_impact_service_proto_rawDescData
 }
 
-var file_Sustainability_impact_service_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_Sustainability_impact_service_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_Sustainability_impact_service_proto_goTypes = []interface{}{
 	(*LogImpactRequest)(nil),                  // 0: SustainabilityImpactService.LogImpactRequest
 	(*LogImpactResponse)(nil),                 // 1: SustainabilityImpactService.LogImpactResponse
@@ -1393,37 +1445,39 @@ var file_Sustainability_impact_service_proto_goTypes = []interface{}{
 	(*UserChallenge)(nil),                     // 15: SustainabilityImpactService.UserChallenge
 	(*GetUsersLeaderboardRequest)(nil),        // 16: SustainabilityImpactService.GetUsersLeaderboardRequest
 	(*GetUsersLeaderboardResponse)(nil),       // 17: SustainabilityImpactService.GetUsersLeaderboardResponse
-	(*User)(nil),                              // 18: SustainabilityImpactService.User
+	(*UsersLeaderboard)(nil),                  // 18: SustainabilityImpactService.UsersLeaderboard
 	(*GetCommunitiesLeaderboardRequest)(nil),  // 19: SustainabilityImpactService.GetCommunitiesLeaderboardRequest
 	(*GetCommunitiesLeaderboardResponse)(nil), // 20: SustainabilityImpactService.GetCommunitiesLeaderboardResponse
+	(*CommunitiesLeaderboard)(nil),            // 21: SustainabilityImpactService.CommunitiesLeaderboard
 }
 var file_Sustainability_impact_service_proto_depIdxs = []int32{
 	8,  // 0: SustainabilityImpactService.GetChallengesResponse.challanges:type_name -> SustainabilityImpactService.Challenge
 	15, // 1: SustainabilityImpactService.GetUserChallengesResponse.userChallenges:type_name -> SustainabilityImpactService.UserChallenge
-	18, // 2: SustainabilityImpactService.GetUsersLeaderboardResponse.users:type_name -> SustainabilityImpactService.User
-	0,  // 3: SustainabilityImpactService.SustainabilityimpactService.LogImpact:input_type -> SustainabilityImpactService.LogImpactRequest
-	2,  // 4: SustainabilityImpactService.SustainabilityimpactService.GetUserImpact:input_type -> SustainabilityImpactService.GetUserImpactRequest
-	4,  // 5: SustainabilityImpactService.SustainabilityimpactService.GetCommunityImpact:input_type -> SustainabilityImpactService.GetCommunityImpactRequest
-	6,  // 6: SustainabilityImpactService.SustainabilityimpactService.GetChallenges:input_type -> SustainabilityImpactService.GetChallengesRequest
-	9,  // 7: SustainabilityImpactService.SustainabilityimpactService.JoinChallenge:input_type -> SustainabilityImpactService.JoinChallengeRequest
-	11, // 8: SustainabilityImpactService.SustainabilityimpactService.UpdateChallengeProgress:input_type -> SustainabilityImpactService.UpdateChallengeProgressRequest
-	13, // 9: SustainabilityImpactService.SustainabilityimpactService.GetUserChallenges:input_type -> SustainabilityImpactService.GetUserChallengesRequest
-	16, // 10: SustainabilityImpactService.SustainabilityimpactService.GetUsersLeaderboard:input_type -> SustainabilityImpactService.GetUsersLeaderboardRequest
-	19, // 11: SustainabilityImpactService.SustainabilityimpactService.GetCommunitiesLeaderboard:input_type -> SustainabilityImpactService.GetCommunitiesLeaderboardRequest
-	1,  // 12: SustainabilityImpactService.SustainabilityimpactService.LogImpact:output_type -> SustainabilityImpactService.LogImpactResponse
-	3,  // 13: SustainabilityImpactService.SustainabilityimpactService.GetUserImpact:output_type -> SustainabilityImpactService.GetUserImpactResponse
-	5,  // 14: SustainabilityImpactService.SustainabilityimpactService.GetCommunityImpact:output_type -> SustainabilityImpactService.GetCommunityImpactResponse
-	7,  // 15: SustainabilityImpactService.SustainabilityimpactService.GetChallenges:output_type -> SustainabilityImpactService.GetChallengesResponse
-	10, // 16: SustainabilityImpactService.SustainabilityimpactService.JoinChallenge:output_type -> SustainabilityImpactService.JoinChallengeResponse
-	12, // 17: SustainabilityImpactService.SustainabilityimpactService.UpdateChallengeProgress:output_type -> SustainabilityImpactService.UpdateChallengeProgressResponse
-	14, // 18: SustainabilityImpactService.SustainabilityimpactService.GetUserChallenges:output_type -> SustainabilityImpactService.GetUserChallengesResponse
-	17, // 19: SustainabilityImpactService.SustainabilityimpactService.GetUsersLeaderboard:output_type -> SustainabilityImpactService.GetUsersLeaderboardResponse
-	20, // 20: SustainabilityImpactService.SustainabilityimpactService.GetCommunitiesLeaderboard:output_type -> SustainabilityImpactService.GetCommunitiesLeaderboardResponse
-	12, // [12:21] is the sub-list for method output_type
-	3,  // [3:12] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	18, // 2: SustainabilityImpactService.GetUsersLeaderboardResponse.leaderboard:type_name -> SustainabilityImpactService.UsersLeaderboard
+	21, // 3: SustainabilityImpactService.GetCommunitiesLeaderboardResponse.communitiesLeaderboards:type_name -> SustainabilityImpactService.CommunitiesLeaderboard
+	0,  // 4: SustainabilityImpactService.SustainabilityimpactService.LogImpact:input_type -> SustainabilityImpactService.LogImpactRequest
+	2,  // 5: SustainabilityImpactService.SustainabilityimpactService.GetUserImpact:input_type -> SustainabilityImpactService.GetUserImpactRequest
+	4,  // 6: SustainabilityImpactService.SustainabilityimpactService.GetCommunityImpact:input_type -> SustainabilityImpactService.GetCommunityImpactRequest
+	6,  // 7: SustainabilityImpactService.SustainabilityimpactService.GetChallenges:input_type -> SustainabilityImpactService.GetChallengesRequest
+	9,  // 8: SustainabilityImpactService.SustainabilityimpactService.JoinChallenge:input_type -> SustainabilityImpactService.JoinChallengeRequest
+	11, // 9: SustainabilityImpactService.SustainabilityimpactService.UpdateChallengeProgress:input_type -> SustainabilityImpactService.UpdateChallengeProgressRequest
+	13, // 10: SustainabilityImpactService.SustainabilityimpactService.GetUserChallenges:input_type -> SustainabilityImpactService.GetUserChallengesRequest
+	16, // 11: SustainabilityImpactService.SustainabilityimpactService.GetUsersLeaderboard:input_type -> SustainabilityImpactService.GetUsersLeaderboardRequest
+	19, // 12: SustainabilityImpactService.SustainabilityimpactService.GetCommunitiesLeaderboard:input_type -> SustainabilityImpactService.GetCommunitiesLeaderboardRequest
+	1,  // 13: SustainabilityImpactService.SustainabilityimpactService.LogImpact:output_type -> SustainabilityImpactService.LogImpactResponse
+	3,  // 14: SustainabilityImpactService.SustainabilityimpactService.GetUserImpact:output_type -> SustainabilityImpactService.GetUserImpactResponse
+	5,  // 15: SustainabilityImpactService.SustainabilityimpactService.GetCommunityImpact:output_type -> SustainabilityImpactService.GetCommunityImpactResponse
+	7,  // 16: SustainabilityImpactService.SustainabilityimpactService.GetChallenges:output_type -> SustainabilityImpactService.GetChallengesResponse
+	10, // 17: SustainabilityImpactService.SustainabilityimpactService.JoinChallenge:output_type -> SustainabilityImpactService.JoinChallengeResponse
+	12, // 18: SustainabilityImpactService.SustainabilityimpactService.UpdateChallengeProgress:output_type -> SustainabilityImpactService.UpdateChallengeProgressResponse
+	14, // 19: SustainabilityImpactService.SustainabilityimpactService.GetUserChallenges:output_type -> SustainabilityImpactService.GetUserChallengesResponse
+	17, // 20: SustainabilityImpactService.SustainabilityimpactService.GetUsersLeaderboard:output_type -> SustainabilityImpactService.GetUsersLeaderboardResponse
+	20, // 21: SustainabilityImpactService.SustainabilityimpactService.GetCommunitiesLeaderboard:output_type -> SustainabilityImpactService.GetCommunitiesLeaderboardResponse
+	13, // [13:22] is the sub-list for method output_type
+	4,  // [4:13] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_Sustainability_impact_service_proto_init() }
@@ -1649,7 +1703,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*User); i {
+			switch v := v.(*UsersLeaderboard); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1684,6 +1738,18 @@ func file_Sustainability_impact_service_proto_init() {
 				return nil
 			}
 		}
+		file_Sustainability_impact_service_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CommunitiesLeaderboard); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1691,7 +1757,7 @@ func file_Sustainability_impact_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_Sustainability_impact_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
