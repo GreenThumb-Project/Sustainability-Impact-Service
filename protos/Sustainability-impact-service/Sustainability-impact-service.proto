@@ -64,10 +64,12 @@ message GetCommunityImpactRequest{
 
 message GetCommunityImpactResponse{
     string id=1;
-    string title=2;
-    string description=3;
-    float  goalAmount=4;
+
+    string user_id=2;
+    string category=3;
+    float goalAmount=4;
     string goalUnit=5;
+    string logged_at=6;
 }
 
 // Ushbu method mavjud bo'lgan barcha barqarorlik bo'yicha chaqiruvlarni (challenges) ko'rsatish uchun ishlatiladi.
@@ -128,6 +130,7 @@ message UserChallenge{
     string userId=1;
     string challengeId=2;
     float progress=3;
+    string completedAt=4;
 }
 
 // Ushbu method barcha foydalanuvchilar orasida eng yaxshi natijalarga erishganlarni ko'rsatish uchun ishlatiladi.
@@ -135,10 +138,10 @@ message UserChallenge{
 message GetUsersLeaderboardRequest{}
 
 message GetUsersLeaderboardResponse{
-    repeated User users=1;
+    repeated UsersLeaderboard leaderboard=1;
 }
 
-message User{
+message UsersLeaderboard {
     string userId=1;
     float points=2;
 }
@@ -148,6 +151,10 @@ message User{
 message GetCommunitiesLeaderboardRequest{}
 
 message GetCommunitiesLeaderboardResponse{
+    repeated CommunitiesLeaderboard communitiesLeaderboards = 1;
+}
+
+message CommunitiesLeaderboard {
     string communityId=1;
     float points=2;
 }
