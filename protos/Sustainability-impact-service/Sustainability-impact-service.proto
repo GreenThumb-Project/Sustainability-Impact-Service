@@ -62,10 +62,11 @@ message GetCommunityImpactRequest{
 
 message GetCommunityImpactResponse{
     string id=1;
-    string title=2;
-    string description=3;
+    string user_id=2;
+    string category=3;
     float goalAmount=4;
     string goalUnit=5;
+    string logged_at=6;
 }
 
 // Ushbu method mavjud bo'lgan barcha barqarorlik bo'yicha chaqiruvlarni (challenges) ko'rsatish uchun ishlatiladi.
