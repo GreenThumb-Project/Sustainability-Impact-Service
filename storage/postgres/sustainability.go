@@ -112,3 +112,118 @@ func (s *SustainabilityRepo) UpdateChallengeProgress(in *pb.UpdateChallengeProgr
 	return &pb.UpdateChallengeProgressResponse{Success: false}, nil
 
 }
+
+func (s *SustainabilityRepo) GetCommunityImpact(req string) (*pb.GetCommunityImpactResponse, error) {
+	res := pb.GetCommunityImpactResponse{}
+	err := s.DB.QueryRow(`
+		SELECT 
+			id,
+			user_id,
+			category,
+			amount,
+			unit,
+			logged_at 
+		FROM 
+			impact_logs 
+		where 
+			user_id=$1
+		`, req).Scan(&res.Id, &res.UserId, &res.Category, &res.GoalAmount, &res.GoalUnit, &res.LoggedAt)
+	return &res, err
+}
+
+func (s *SustainabilityRepo) GetChallenges() (*pb.GetChallengesResponse, error) {
+	res := []*pb.Challenge{}
+	rows, err := s.DB.Query(`
+		SELECT 
+			id,
+			title,
+			description,
+			goal_amount,
+			goal_unit 
+		FROM 
+			user_challenges
+	`)
+	if err != nil {
+		return &pb.GetChallengesResponse{}, err
+	}
+	for rows.Next() {
+		res1 := pb.Challenge{}
+		err = rows.Scan(&res1.Id, &res1.Title, &res1.Description, &res1.GoalAmount, &res1.GoalUnit)
+		if err != nil {
+			return &pb.GetChallengesResponse{}, err
+		}
+		res = append(res, &res1)
+	}
+	return &pb.GetChallengesResponse{Challanges: res}, nil
+}
+
+func (s *SustainabilityRepo) GetUsersChallenges(id string) (*pb.GetUserChallengesResponse, error) {
+	var userChallenges []*pb.UserChallenge
+	rows, err := s.DB.Query(`
+		SELECT
+			user_id,
+			challenge_id,
+			progress,
+			completed_at
+		FROM
+			user_challenges
+		WHERE 
+			id = $1
+	`, id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var userChallenge pb.UserChallenge
+
+		err = rows.Scan(userChallenge.UserId, &userChallenge.ChallengeId, &userChallenge.Progress, &userChallenge.CompletedAt)
+
+		if err != nil {
+			return nil, err
+		}
+
+		userChallenges = append(userChallenges, &userChallenge)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return &pb.GetUserChallengesResponse{UserChallenges: userChallenges}, nil
+}
+
+func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, error) {
+	var lederboards []*pb.UsersLeaderboard
+
+	rows, err := s.DB.Query(`
+		SELECT
+			user_id,
+			sum(progress) AS points
+		FROM
+			user_challenges
+		GROUP BY
+			user_id
+		ORDER BY
+			points DESC
+	`, )
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var lederboard pb.UsersLeaderboard
+
+		err = rows.Scan(lederboard.UserId, lederboard.Points)
+		if err != nil {
+			return nil, err
+		}
+
+		lederboards = append(lederboards, &lederboard)
+	}
+
+	return lederboards, nil
+}
