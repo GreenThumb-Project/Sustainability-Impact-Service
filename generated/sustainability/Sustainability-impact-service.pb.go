@@ -25,7 +25,6 @@ type LogImpactRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
 	Category string `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
 	Amount   string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
 	Unit     string `protobuf:"bytes,4,opt,name=unit,proto3" json:"unit,omitempty"`
@@ -61,13 +60,6 @@ func (x *LogImpactRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LogImpactRequest.ProtoReflect.Descriptor instead.
 func (*LogImpactRequest) Descriptor() ([]byte, []int) {
 	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *LogImpactRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
 }
 
 func (x *LogImpactRequest) GetCategory() string {
@@ -190,10 +182,7 @@ type GetUserImpactResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	Category string `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
-	Amount   string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	Unit     string `protobuf:"bytes,4,opt,name=unit,proto3" json:"unit,omitempty"`
+	UserImpact []*UserImpact `protobuf:"bytes,1,rep,name=userImpact,proto3" json:"userImpact,omitempty"`
 }
 
 func (x *GetUserImpactResponse) Reset() {
@@ -228,28 +217,70 @@ func (*GetUserImpactResponse) Descriptor() ([]byte, []int) {
 	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUserImpactResponse) GetUserId() string {
+func (x *GetUserImpactResponse) GetUserImpact() []*UserImpact {
 	if x != nil {
-		return x.UserId
+		return x.UserImpact
 	}
-	return ""
+	return nil
 }
 
-func (x *GetUserImpactResponse) GetCategory() string {
+type UserImpact struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Category string `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
+	Amount   string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Unit     string `protobuf:"bytes,4,opt,name=unit,proto3" json:"unit,omitempty"`
+}
+
+func (x *UserImpact) Reset() {
+	*x = UserImpact{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_Sustainability_impact_service_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserImpact) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserImpact) ProtoMessage() {}
+
+func (x *UserImpact) ProtoReflect() protoreflect.Message {
+	mi := &file_Sustainability_impact_service_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserImpact.ProtoReflect.Descriptor instead.
+func (*UserImpact) Descriptor() ([]byte, []int) {
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UserImpact) GetCategory() string {
 	if x != nil {
 		return x.Category
 	}
 	return ""
 }
 
-func (x *GetUserImpactResponse) GetAmount() string {
+func (x *UserImpact) GetAmount() string {
 	if x != nil {
 		return x.Amount
 	}
 	return ""
 }
 
-func (x *GetUserImpactResponse) GetUnit() string {
+func (x *UserImpact) GetUnit() string {
 	if x != nil {
 		return x.Unit
 	}
@@ -267,7 +298,7 @@ type GetCommunityImpactRequest struct {
 func (x *GetCommunityImpactRequest) Reset() {
 	*x = GetCommunityImpactRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[4]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -280,7 +311,7 @@ func (x *GetCommunityImpactRequest) String() string {
 func (*GetCommunityImpactRequest) ProtoMessage() {}
 
 func (x *GetCommunityImpactRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[4]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -293,7 +324,7 @@ func (x *GetCommunityImpactRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCommunityImpactRequest.ProtoReflect.Descriptor instead.
 func (*GetCommunityImpactRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{4}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetCommunityImpactRequest) GetId() string {
@@ -319,7 +350,7 @@ type GetCommunityImpactResponse struct {
 func (x *GetCommunityImpactResponse) Reset() {
 	*x = GetCommunityImpactResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[5]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -332,7 +363,7 @@ func (x *GetCommunityImpactResponse) String() string {
 func (*GetCommunityImpactResponse) ProtoMessage() {}
 
 func (x *GetCommunityImpactResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[5]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -345,7 +376,7 @@ func (x *GetCommunityImpactResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCommunityImpactResponse.ProtoReflect.Descriptor instead.
 func (*GetCommunityImpactResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{5}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetCommunityImpactResponse) GetId() string {
@@ -399,7 +430,7 @@ type GetChallengesRequest struct {
 func (x *GetChallengesRequest) Reset() {
 	*x = GetChallengesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[6]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -412,7 +443,7 @@ func (x *GetChallengesRequest) String() string {
 func (*GetChallengesRequest) ProtoMessage() {}
 
 func (x *GetChallengesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[6]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -425,7 +456,7 @@ func (x *GetChallengesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetChallengesRequest.ProtoReflect.Descriptor instead.
 func (*GetChallengesRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{6}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{7}
 }
 
 type GetChallengesResponse struct {
@@ -439,7 +470,7 @@ type GetChallengesResponse struct {
 func (x *GetChallengesResponse) Reset() {
 	*x = GetChallengesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[7]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -452,7 +483,7 @@ func (x *GetChallengesResponse) String() string {
 func (*GetChallengesResponse) ProtoMessage() {}
 
 func (x *GetChallengesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[7]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -465,7 +496,7 @@ func (x *GetChallengesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetChallengesResponse.ProtoReflect.Descriptor instead.
 func (*GetChallengesResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{7}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetChallengesResponse) GetChallanges() []*Challenge {
@@ -490,7 +521,7 @@ type Challenge struct {
 func (x *Challenge) Reset() {
 	*x = Challenge{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[8]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -503,7 +534,7 @@ func (x *Challenge) String() string {
 func (*Challenge) ProtoMessage() {}
 
 func (x *Challenge) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[8]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -516,7 +547,7 @@ func (x *Challenge) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Challenge.ProtoReflect.Descriptor instead.
 func (*Challenge) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{8}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *Challenge) GetId() string {
@@ -567,7 +598,7 @@ type JoinChallengeRequest struct {
 func (x *JoinChallengeRequest) Reset() {
 	*x = JoinChallengeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[9]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -580,7 +611,7 @@ func (x *JoinChallengeRequest) String() string {
 func (*JoinChallengeRequest) ProtoMessage() {}
 
 func (x *JoinChallengeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[9]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -593,7 +624,7 @@ func (x *JoinChallengeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JoinChallengeRequest.ProtoReflect.Descriptor instead.
 func (*JoinChallengeRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{9}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *JoinChallengeRequest) GetUserId() string {
@@ -628,7 +659,7 @@ type JoinChallengeResponse struct {
 func (x *JoinChallengeResponse) Reset() {
 	*x = JoinChallengeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[10]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -641,7 +672,7 @@ func (x *JoinChallengeResponse) String() string {
 func (*JoinChallengeResponse) ProtoMessage() {}
 
 func (x *JoinChallengeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[10]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -654,7 +685,7 @@ func (x *JoinChallengeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JoinChallengeResponse.ProtoReflect.Descriptor instead.
 func (*JoinChallengeResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{10}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *JoinChallengeResponse) GetSuccess() bool {
@@ -677,7 +708,7 @@ type UpdateChallengeProgressRequest struct {
 func (x *UpdateChallengeProgressRequest) Reset() {
 	*x = UpdateChallengeProgressRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[11]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -690,7 +721,7 @@ func (x *UpdateChallengeProgressRequest) String() string {
 func (*UpdateChallengeProgressRequest) ProtoMessage() {}
 
 func (x *UpdateChallengeProgressRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[11]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -703,7 +734,7 @@ func (x *UpdateChallengeProgressRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateChallengeProgressRequest.ProtoReflect.Descriptor instead.
 func (*UpdateChallengeProgressRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{11}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UpdateChallengeProgressRequest) GetUserId() string {
@@ -738,7 +769,7 @@ type UpdateChallengeProgressResponse struct {
 func (x *UpdateChallengeProgressResponse) Reset() {
 	*x = UpdateChallengeProgressResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[12]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -751,7 +782,7 @@ func (x *UpdateChallengeProgressResponse) String() string {
 func (*UpdateChallengeProgressResponse) ProtoMessage() {}
 
 func (x *UpdateChallengeProgressResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[12]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -764,7 +795,7 @@ func (x *UpdateChallengeProgressResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateChallengeProgressResponse.ProtoReflect.Descriptor instead.
 func (*UpdateChallengeProgressResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{12}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UpdateChallengeProgressResponse) GetSuccess() bool {
@@ -785,7 +816,7 @@ type GetUserChallengesRequest struct {
 func (x *GetUserChallengesRequest) Reset() {
 	*x = GetUserChallengesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[13]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -798,7 +829,7 @@ func (x *GetUserChallengesRequest) String() string {
 func (*GetUserChallengesRequest) ProtoMessage() {}
 
 func (x *GetUserChallengesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[13]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -811,7 +842,7 @@ func (x *GetUserChallengesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserChallengesRequest.ProtoReflect.Descriptor instead.
 func (*GetUserChallengesRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{13}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetUserChallengesRequest) GetUserId() string {
@@ -832,7 +863,7 @@ type GetUserChallengesResponse struct {
 func (x *GetUserChallengesResponse) Reset() {
 	*x = GetUserChallengesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[14]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -845,7 +876,7 @@ func (x *GetUserChallengesResponse) String() string {
 func (*GetUserChallengesResponse) ProtoMessage() {}
 
 func (x *GetUserChallengesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[14]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -858,7 +889,7 @@ func (x *GetUserChallengesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserChallengesResponse.ProtoReflect.Descriptor instead.
 func (*GetUserChallengesResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{14}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetUserChallengesResponse) GetUserChallenges() []*UserChallenge {
@@ -882,7 +913,7 @@ type UserChallenge struct {
 func (x *UserChallenge) Reset() {
 	*x = UserChallenge{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[15]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -895,7 +926,7 @@ func (x *UserChallenge) String() string {
 func (*UserChallenge) ProtoMessage() {}
 
 func (x *UserChallenge) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[15]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -908,7 +939,7 @@ func (x *UserChallenge) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserChallenge.ProtoReflect.Descriptor instead.
 func (*UserChallenge) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{15}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UserChallenge) GetUserId() string {
@@ -948,7 +979,7 @@ type GetUsersLeaderboardRequest struct {
 func (x *GetUsersLeaderboardRequest) Reset() {
 	*x = GetUsersLeaderboardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[16]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -961,7 +992,7 @@ func (x *GetUsersLeaderboardRequest) String() string {
 func (*GetUsersLeaderboardRequest) ProtoMessage() {}
 
 func (x *GetUsersLeaderboardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[16]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -974,7 +1005,7 @@ func (x *GetUsersLeaderboardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersLeaderboardRequest.ProtoReflect.Descriptor instead.
 func (*GetUsersLeaderboardRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{16}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{17}
 }
 
 type GetUsersLeaderboardResponse struct {
@@ -988,7 +1019,7 @@ type GetUsersLeaderboardResponse struct {
 func (x *GetUsersLeaderboardResponse) Reset() {
 	*x = GetUsersLeaderboardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[17]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1001,7 +1032,7 @@ func (x *GetUsersLeaderboardResponse) String() string {
 func (*GetUsersLeaderboardResponse) ProtoMessage() {}
 
 func (x *GetUsersLeaderboardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[17]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1014,7 +1045,7 @@ func (x *GetUsersLeaderboardResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersLeaderboardResponse.ProtoReflect.Descriptor instead.
 func (*GetUsersLeaderboardResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{17}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetUsersLeaderboardResponse) GetLeaderboard() []*UsersLeaderboard {
@@ -1036,7 +1067,7 @@ type UsersLeaderboard struct {
 func (x *UsersLeaderboard) Reset() {
 	*x = UsersLeaderboard{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[18]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1048,8 +1079,10 @@ func (x *UsersLeaderboard) String() string {
 
 func (*UsersLeaderboard) ProtoMessage() {}
 
+
 func (x *UsersLeaderboard) ProtoReflect() protoreflect.Message {
 	mi := &file_Sustainability_impact_service_proto_msgTypes[18]
+  
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1059,6 +1092,7 @@ func (x *UsersLeaderboard) ProtoReflect() protoreflect.Message {
 	}
 	return mi.MessageOf(x)
 }
+
 
 // Deprecated: Use UsersLeaderboard.ProtoReflect.Descriptor instead.
 func (*UsersLeaderboard) Descriptor() ([]byte, []int) {
@@ -1088,7 +1122,7 @@ type GetCommunitiesLeaderboardRequest struct {
 func (x *GetCommunitiesLeaderboardRequest) Reset() {
 	*x = GetCommunitiesLeaderboardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[19]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1101,7 +1135,7 @@ func (x *GetCommunitiesLeaderboardRequest) String() string {
 func (*GetCommunitiesLeaderboardRequest) ProtoMessage() {}
 
 func (x *GetCommunitiesLeaderboardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[19]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1114,7 +1148,7 @@ func (x *GetCommunitiesLeaderboardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCommunitiesLeaderboardRequest.ProtoReflect.Descriptor instead.
 func (*GetCommunitiesLeaderboardRequest) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{19}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{20}
 }
 
 type GetCommunitiesLeaderboardResponse struct {
@@ -1128,7 +1162,7 @@ type GetCommunitiesLeaderboardResponse struct {
 func (x *GetCommunitiesLeaderboardResponse) Reset() {
 	*x = GetCommunitiesLeaderboardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_Sustainability_impact_service_proto_msgTypes[20]
+		mi := &file_Sustainability_impact_service_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1141,7 +1175,7 @@ func (x *GetCommunitiesLeaderboardResponse) String() string {
 func (*GetCommunitiesLeaderboardResponse) ProtoMessage() {}
 
 func (x *GetCommunitiesLeaderboardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_Sustainability_impact_service_proto_msgTypes[20]
+	mi := &file_Sustainability_impact_service_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1154,7 +1188,7 @@ func (x *GetCommunitiesLeaderboardResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetCommunitiesLeaderboardResponse.ProtoReflect.Descriptor instead.
 func (*GetCommunitiesLeaderboardResponse) Descriptor() ([]byte, []int) {
-	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{20}
+	return file_Sustainability_impact_service_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetCommunitiesLeaderboardResponse) GetCommunitiesLeaderboards() []*CommunitiesLeaderboard {
@@ -1226,26 +1260,12 @@ var file_Sustainability_impact_service_proto_rawDesc = []byte{
 	0x2d, 0x69, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x2d, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x1b, 0x53, 0x75, 0x73, 0x74, 0x61, 0x69, 0x6e, 0x61, 0x62,
 	0x69, 0x6c, 0x69, 0x74, 0x79, 0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x22, 0x72, 0x0a, 0x10, 0x4c, 0x6f, 0x67, 0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1a,
-	0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x6d,
-	0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75,
-	0x6e, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x6e, 0x69, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x75, 0x6e, 0x69, 0x74, 0x22, 0x2d, 0x0a, 0x11, 0x4c, 0x6f, 0x67, 0x49, 0x6d, 0x70,
-	0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73,
-	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75,
-	0x63, 0x63, 0x65, 0x73, 0x73, 0x22, 0x2e, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
-	0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a,
-	0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75,
-	0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x77, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
-	0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16,
-	0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
-	0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x63, 0x65, 0x22, 0x5a, 0x0a, 0x10, 0x4c, 0x6f, 0x67, 0x49, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
 	0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f,
 	0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x6e,
+
 	0x69, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x6e, 0x69, 0x74, 0x22, 0x2b,
 	0x0a, 0x19, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x49, 0x6d,
 	0x70, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69,
@@ -1431,6 +1451,7 @@ var file_Sustainability_impact_service_proto_goTypes = []interface{}{
 	(*LogImpactResponse)(nil),                 // 1: SustainabilityImpactService.LogImpactResponse
 	(*GetUserImpactRequest)(nil),              // 2: SustainabilityImpactService.GetUserImpactRequest
 	(*GetUserImpactResponse)(nil),             // 3: SustainabilityImpactService.GetUserImpactResponse
+
 	(*GetCommunityImpactRequest)(nil),         // 4: SustainabilityImpactService.GetCommunityImpactRequest
 	(*GetCommunityImpactResponse)(nil),        // 5: SustainabilityImpactService.GetCommunityImpactResponse
 	(*GetChallengesRequest)(nil),              // 6: SustainabilityImpactService.GetChallengesRequest
@@ -1535,7 +1556,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCommunityImpactRequest); i {
+			switch v := v.(*UserImpact); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1547,7 +1568,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCommunityImpactResponse); i {
+			switch v := v.(*GetCommunityImpactRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1559,7 +1580,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetChallengesRequest); i {
+			switch v := v.(*GetCommunityImpactResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1571,7 +1592,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetChallengesResponse); i {
+			switch v := v.(*GetChallengesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1583,7 +1604,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Challenge); i {
+			switch v := v.(*GetChallengesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1595,7 +1616,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JoinChallengeRequest); i {
+			switch v := v.(*Challenge); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1607,7 +1628,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*JoinChallengeResponse); i {
+			switch v := v.(*JoinChallengeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1619,7 +1640,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateChallengeProgressRequest); i {
+			switch v := v.(*JoinChallengeResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1631,7 +1652,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateChallengeProgressResponse); i {
+			switch v := v.(*UpdateChallengeProgressRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1643,7 +1664,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserChallengesRequest); i {
+			switch v := v.(*UpdateChallengeProgressResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1655,7 +1676,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserChallengesResponse); i {
+			switch v := v.(*GetUserChallengesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1667,7 +1688,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserChallenge); i {
+			switch v := v.(*GetUserChallengesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1679,7 +1700,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersLeaderboardRequest); i {
+			switch v := v.(*UserChallenge); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1691,7 +1712,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersLeaderboardResponse); i {
+			switch v := v.(*GetUsersLeaderboardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1703,6 +1724,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+
 			switch v := v.(*UsersLeaderboard); i {
 			case 0:
 				return &v.state
@@ -1715,7 +1737,7 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetCommunitiesLeaderboardRequest); i {
+			switch v := v.(*User); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1727,6 +1749,18 @@ func file_Sustainability_impact_service_proto_init() {
 			}
 		}
 		file_Sustainability_impact_service_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCommunitiesLeaderboardRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_Sustainability_impact_service_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCommunitiesLeaderboardResponse); i {
 			case 0:
 				return &v.state

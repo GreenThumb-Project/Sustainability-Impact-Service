@@ -28,7 +28,6 @@ service SustainabilityimpactService{
 // Masalan, foydalanuvchi chiqindini qayta ishlash yoki elektr energiyasini tejash bo'yicha ma'lumotlarni kiritishi mumkin.
 
 message LogImpactRequest{
-    string userId=1;
     string category=2;
     string amount=3;
     string unit=4;
@@ -47,7 +46,10 @@ message GetUserImpactRequest{
 }
 
 message GetUserImpactResponse{
-    string userId=1;
+    repeated UserImpact userImpact=1;
+}
+
+message UserImpact{
     string category=2;
     string amount=3;
     string unit=4;
@@ -62,6 +64,7 @@ message GetCommunityImpactRequest{
 
 message GetCommunityImpactResponse{
     string id=1;
+
     string user_id=2;
     string category=3;
     float goalAmount=4;
