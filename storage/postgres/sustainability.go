@@ -9,8 +9,8 @@ type SustainabilityRepo struct {
 	DB *sql.DB
 }
 
-func NewSustainabilityRepo(db *sql.DB) SustainabilityRepo {
-	return SustainabilityRepo{DB: db}
+func NewSustainabilityRepo(db *sql.DB) *SustainabilityRepo {
+	return &SustainabilityRepo{DB: db}
 }
 
 func (s *SustainabilityRepo) LogImpact(in *pb.LogImpactRequest) (*pb.LogImpactResponse, error) {
