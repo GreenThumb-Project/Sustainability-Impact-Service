@@ -38,7 +38,7 @@ func (s *SustainabilityRepo) LogImpact(in *pb.LogImpactRequest) (*pb.LogImpactRe
 	return &pb.LogImpactResponse{Success: true}, err
 }
 
-func (s *SustainabilityRepo) GetUserImpact(in *pb.GetUserImpactRequest) (*pb.GetUserImpactResponse, error) {
+func (s *SustainabilityRepo) GetUserImpact(userId string) (*pb.GetUserImpactResponse, error) {
 	rows, err := s.DB.Query(`
 			SELECT 
 				category,
@@ -47,7 +47,7 @@ func (s *SustainabilityRepo) GetUserImpact(in *pb.GetUserImpactRequest) (*pb.Get
 			FROM 
 			impact_logs
 			WHERE user_id=$1
-			`, in.UserId)
+			`, userId)
 	if err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, erro
 	for rows.Next() {
 		var lederboard pb.UsersLeaderboard
 
-		err = rows.Scan(lederboard.UserId, lederboard.Points)
+		err = rows.Scan(lederboard.UserId, lederboard.TotalProgres)
 		if err != nil {
 			return nil, err
 		}
@@ -226,4 +226,18 @@ func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, erro
 	}
 
 	return lederboards, nil
+}
+
+func (s *SustainabilityRepo) GetUsersCommonProgres(id string) (float32, error) {
+	var progres float32 
+	err := s.DB.QueryRow(`
+		SELECT
+			SUM(progres) AS points
+		FROM
+			user_challenges
+		WHERE
+			user_id = $1
+	`, id).Scan(&progres)
+
+	return progres, err
 }
