@@ -14,24 +14,21 @@ func NewSustainabilityRepo(db *sql.DB) *SustainabilityRepo {
 }
 
 func (s *SustainabilityRepo) LogImpact(in *pb.LogImpactRequest) (*pb.LogImpactResponse, error) {
-	rows, err := s.DB.Exec(`
+	_, err := s.DB.Exec(`
 			INSERT INTO
 			impact_logs(
+				user_id,
 				category,
 				amount,
 				unit)
 			VALUES(
 				$1,
 				$2,
-				$3)
-			`, in.Category, in.Amount, in.Unit)
+				$3,
+				$4)
+			`, in.UserId, in.Category, in.Amount, in.Unit)
 
 	if err != nil {
-		return &pb.LogImpactResponse{Success: false}, err
-	}
-
-	rowsAffected, err := rows.RowsAffected()
-	if err != nil || rowsAffected == 0 {
 		return &pb.LogImpactResponse{Success: false}, err
 	}
 
@@ -41,8 +38,9 @@ func (s *SustainabilityRepo) LogImpact(in *pb.LogImpactRequest) (*pb.LogImpactRe
 func (s *SustainabilityRepo) GetUserImpact(userId string) (*pb.GetUserImpactResponse, error) {
 	rows, err := s.DB.Query(`
 			SELECT 
+			    user_id,
 				category,
-				amaunt,
+				amount,
 				unit
 			FROM 
 			impact_logs
@@ -55,7 +53,7 @@ func (s *SustainabilityRepo) GetUserImpact(userId string) (*pb.GetUserImpactResp
 
 	for rows.Next() {
 		var userImpact pb.UserImpact
-		err := rows.Scan(&userImpact.Category, &userImpact.Amount, &userImpact.Unit)
+		err := rows.Scan(&userImpact.UserId, &userImpact.Category, &userImpact.Amount, &userImpact.Unit)
 		if err != nil {
 			return nil, err
 		}
@@ -68,24 +66,18 @@ func (s *SustainabilityRepo) GetUserImpact(userId string) (*pb.GetUserImpactResp
 
 func (s *SustainabilityRepo) JoinChallenge(in *pb.JoinChallengeRequest) (*pb.JoinChallengeResponse, error) {
 
-	rows, err := s.DB.Exec(`
+	_, err := s.DB.Exec(`
 			INSERT INTO
 			user_challenges(
 				user_id,
 				challenge_id,
-				progress
+				progress)
 			VALUES(
 				$1,
 				$2,
-				$3)
-				)`, in.UserId, in.ChallengeId, in.Progress)
+				$3)`, in.UserId, in.ChallengeId, in.Progress)
 
 	if err != nil {
-		return &pb.JoinChallengeResponse{Success: false}, err
-	}
-
-	rowsAffected, err := rows.RowsAffected()
-	if err != nil || rowsAffected == 0 {
 		return &pb.JoinChallengeResponse{Success: false}, err
 	}
 
@@ -94,11 +86,11 @@ func (s *SustainabilityRepo) JoinChallenge(in *pb.JoinChallengeRequest) (*pb.Joi
 
 func (s *SustainabilityRepo) UpdateChallengeProgress(in *pb.UpdateChallengeProgressRequest) (*pb.UpdateChallengeProgressResponse, error) {
 	if in.ChallengeId != "" && in.Progress != 0 {
-		
+
 		_, err := s.DB.Exec(`
 				UPDATE 
 				user_challenges
-				SET challengeId=$1,
+				SET challenge_id=$1,
 					progress=$2 
 				WHERE user_id=$3
 					`, in.ChallengeId, in.Progress, in.UserId)
@@ -141,7 +133,7 @@ func (s *SustainabilityRepo) GetChallenges() (*pb.GetChallengesResponse, error) 
 			goal_amount,
 			goal_unit 
 		FROM 
-			user_challenges
+			sustainability_challenges
 	`)
 	if err != nil {
 		return &pb.GetChallengesResponse{}, err
@@ -163,12 +155,11 @@ func (s *SustainabilityRepo) GetUsersChallenges(id string) (*pb.GetUserChallenge
 		SELECT
 			user_id,
 			challenge_id,
-			progress,
-			completed_at
+			progress
 		FROM
 			user_challenges
 		WHERE 
-			id = $1
+			user_id = $1
 	`, id)
 
 	if err != nil {
@@ -178,7 +169,7 @@ func (s *SustainabilityRepo) GetUsersChallenges(id string) (*pb.GetUserChallenge
 	for rows.Next() {
 		var userChallenge pb.UserChallenge
 
-		err = rows.Scan(userChallenge.UserId, &userChallenge.ChallengeId, &userChallenge.Progress, &userChallenge.CompletedAt)
+		err = rows.Scan(&userChallenge.UserId, &userChallenge.ChallengeId, &userChallenge.Progress)
 
 		if err != nil {
 			return nil, err
@@ -207,7 +198,7 @@ func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, erro
 			user_id
 		ORDER BY
 			points DESC
-	`, )
+	`)
 
 	if err != nil {
 		return nil, err
@@ -217,7 +208,7 @@ func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, erro
 	for rows.Next() {
 		var lederboard pb.UsersLeaderboard
 
-		err = rows.Scan(lederboard.UserId, lederboard.TotalProgres)
+		err = rows.Scan(&lederboard.UserId, &lederboard.TotalProgres)
 		if err != nil {
 			return nil, err
 		}
@@ -229,10 +220,10 @@ func (s *SustainabilityRepo) GetUsersLeaderboard() ([]*pb.UsersLeaderboard, erro
 }
 
 func (s *SustainabilityRepo) GetUsersCommonProgres(id string) (float32, error) {
-	var progres float32 
+	var progres float32
 	err := s.DB.QueryRow(`
 		SELECT
-			SUM(progres) AS points
+			SUM(progress) AS points
 		FROM
 			user_challenges
 		WHERE
@@ -240,4 +231,27 @@ func (s *SustainabilityRepo) GetUsersCommonProgres(id string) (float32, error) {
 	`, id).Scan(&progres)
 
 	return progres, err
+}
+
+func (s *SustainabilityRepo) CreateSustainability(req *pb.CreateSustainabilityRequest) (*pb.CreateSustainabilityResponse, error) {
+	_, err := s.DB.Exec(`
+    INSERT INTO
+    sustainability_challenges(
+        title,
+        description,
+        goal_amount,
+        goal_unit
+    )
+    VALUES(
+        $1,
+        $2,
+        $3,
+        $4
+    )`, req.Title, req.Description, req.GoalAmount, req.GoalUnit)
+
+	if err != nil {
+		return &pb.CreateSustainabilityResponse{Success: false}, err
+	}
+
+	return &pb.CreateSustainabilityResponse{Success: true}, nil
 }
