@@ -103,17 +103,21 @@ func (s *SustainabilityService) GetCommunitiesLeaderboard(ctx context.Context, i
 
 			totalProgres += progres
 		}
-		
+
 		ledaderboard = append(ledaderboard, &pb.CommunitiesLeaderboard{
 			CommunityName: community.CommunityName,
-			CommunityId: community.CommunityId,
-			TotalProgres: totalProgres,
+			CommunityId:   community.CommunityId,
+			TotalProgres:  totalProgres,
 		})
 	}
 
 	sort.Slice(ledaderboard, func(i, j int) bool {
-        return ledaderboard[i].TotalProgres > ledaderboard[j].TotalProgres
-    })
+		return ledaderboard[i].TotalProgres > ledaderboard[j].TotalProgres
+	})
 
 	return &pb.GetCommunitiesLeaderboardResponse{CommunitiesLeaderboards: ledaderboard[:10]}, nil
+}
+
+func (s *SustainabilityService) CreateSustainability(ctx context.Context, in *pb.CreateSustainabilityRequest) (*pb.CreateSustainabilityResponse, error) {
+	return s.Sustainability.CreateSustainability(in)
 }
