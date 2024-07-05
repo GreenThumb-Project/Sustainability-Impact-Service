@@ -124,3 +124,7 @@ func (s *SustainabilityService) GetCommunitiesLeaderboard(ctx context.Context, i
 
 	return &pb.GetCommunitiesLeaderboardResponse{CommunitiesLeaderboards: ledaderboard[:10]}, nil
 }
+
+func (s *SustainabilityService) CreateSustainability(ctx context.Context, in *pb.CreateSustainabilityRequest) (*pb.CreateSustainabilityResponse, error) {
+	return s.Sustainability.CreateSustainability(in)
+}
