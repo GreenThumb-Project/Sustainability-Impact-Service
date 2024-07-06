@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"sort"
 	pb "sustainability-service/generated/sustainability"
 	"sustainability-service/storage/postgres"
@@ -32,13 +33,18 @@ func (s *SustainabilityService) GetUserImpact(ctx context.Context, in *pb.GetUse
 }
 
 func (s *SustainabilityService) GetCommunityImpact(ctx context.Context, in *pb.GetCommunityImpactRequest) (*pb.GetCommunityImpactResponse, error) {
-	impacts, err := s.Sustainability.GetCommunityImpact(in.Id)
 
-	if err != nil {
-		return nil, err
+	var commmunityImpact []*pb.CommunityImpact
+
+	for _, member := range in.Members {
+		resp, err := s.Sustainability.GetCommunityImpact(member)
+		if err != nil && !errors.Is(err, sql.ErrNoRows) {
+			return nil, err
+		}
+		commmunityImpact=append(commmunityImpact, resp)
 	}
 
-	return impacts, nil
+	return &pb.GetCommunityImpactResponse{CommunityImpacts: commmunityImpact}, nil
 }
 
 func (s *SustainabilityService) GetChallenges(ctx context.Context, in *pb.GetChallengesRequest) (*pb.GetChallengesResponse, error) {
@@ -60,6 +66,7 @@ func (s *SustainabilityService) JoinChallenge(ctx context.Context, in *pb.JoinCh
 }
 
 func (s *SustainabilityService) UpdateChallengeProgress(ctx context.Context, in *pb.UpdateChallengeProgressRequest) (*pb.UpdateChallengeProgressResponse, error) {
+
 	resp, err := s.Sustainability.UpdateChallengeProgress(in)
 
 	if err != nil {
@@ -97,7 +104,7 @@ func (s *SustainabilityService) GetCommunitiesLeaderboard(ctx context.Context, i
 		var totalProgres float32
 		for _, member := range community.Members {
 			progres, err := s.Sustainability.GetUsersCommonProgres(member)
-			if err != nil && err != sql.ErrNoRows {
+			if err != nil && !errors.Is(err, sql.ErrNoRows) {
 				return nil, err
 			}
 

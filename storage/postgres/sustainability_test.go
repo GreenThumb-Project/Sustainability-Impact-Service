@@ -18,7 +18,6 @@ func TestLogImpact(t *testing.T) {
 	reslog, err := sus.LogImpact(&pb.LogImpactRequest{
 		UserId:   "a85370e6-2259-4067-b072-4f457033285e",
 		Category: "water_saved",
-		Amount:   "12.00",
 		Unit:     "ANY",
 	})
 	if err != nil {
@@ -145,13 +144,15 @@ func TestGetCommunityImpact(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	waitget := pb.GetCommunityImpactResponse{
-		Id:         "8af45dac-05ea-4ac8-aaa2-ce86afac3be5",
-		UserId:     "a85370e6-2259-4067-b072-4f457033285e",
-		Category:   "water_saved",
-		GoalAmount: 12.00,
-		GoalUnit:   "ANY",
-		LoggedAt:   "2024-07-04T19:42:55.923531+05:00",
+	waitget := []*pb.CommunityImpact{
+		{
+			Id: "8af45dac-05ea-4ac8-aaa2-ce86afac3be5",
+			UserId:     "a85370e6-2259-4067-b072-4f457033285e",
+			Category:   "water_saved",
+			GoalAmount: 12.00,
+			GoalUnit:   "ANY",
+			LoggedAt:   "2024-07-04T19:42:55.923531+05:00",
+		},
 	}
 	if !reflect.DeepEqual(resget, &waitget) {
 		t.Errorf("have %v , wont %v", resget, &waitget)
