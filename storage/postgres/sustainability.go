@@ -17,14 +17,18 @@ func (s *SustainabilityRepo) LogImpact(in *pb.LogImpactRequest) (*pb.LogImpactRe
 	rows, err := s.DB.Exec(`
 			INSERT INTO
 			impact_logs(
+				user_id,
 				category,
 				amount,
-				unit)
+				unit
+			)
 			VALUES(
 				$1,
 				$2,
-				$3)
-			`, in.Category, in.Amount, in.Unit)
+				$3,
+				$4
+			)
+			`, in.UserId,in.Category, in.Amount, in.Unit)
 
 	if err != nil {
 		return &pb.LogImpactResponse{Success: false}, err
@@ -42,7 +46,7 @@ func (s *SustainabilityRepo) GetUserImpact(userId string) (*pb.GetUserImpactResp
 	rows, err := s.DB.Query(`
 			SELECT 
 				category,
-				amaunt,
+				amount,
 				unit
 			FROM 
 			impact_logs
@@ -113,8 +117,9 @@ func (s *SustainabilityRepo) UpdateChallengeProgress(in *pb.UpdateChallengeProgr
 
 }
 
-func (s *SustainabilityRepo) GetCommunityImpact(req string) (*pb.GetCommunityImpactResponse, error) {
-	res := pb.GetCommunityImpactResponse{}
+func (s *SustainabilityRepo) GetCommunityImpact(userId string) (*pb.CommunityImpact, error) {
+	res := pb.CommunityImpact{}
+
 	err := s.DB.QueryRow(`
 		SELECT 
 			id,
@@ -127,7 +132,7 @@ func (s *SustainabilityRepo) GetCommunityImpact(req string) (*pb.GetCommunityImp
 			impact_logs 
 		where 
 			user_id=$1
-		`, req).Scan(&res.Id, &res.UserId, &res.Category, &res.GoalAmount, &res.GoalUnit, &res.LoggedAt)
+		`, userId).Scan(&res.Id, &res.UserId, &res.Category, &res.GoalAmount, &res.GoalUnit, &res.LoggedAt)
 	return &res, err
 }
 

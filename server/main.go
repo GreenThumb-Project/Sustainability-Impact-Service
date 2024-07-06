@@ -19,7 +19,7 @@ func main() {
 
 	defer db.Close()
 
-	listener, err := net.Listen("tcp", ":50054")
+	listener, err := net.Listen("tcp", ":50053")
 
 	if err != nil {
 		log.Fatal(err)
@@ -33,7 +33,7 @@ func main() {
 
 	pb.RegisterSustainabilityimpactServiceServer(s, &sustainability)
 
-	log.Println("server is running on :50053 ...")
+	log.Printf("Server listening at %v", listener.Addr())
 
 	if err = s.Serve(listener); err != nil {
 		log.Fatal(err)
